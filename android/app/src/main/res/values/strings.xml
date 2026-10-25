@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">Liner</string>
+    <string name="title_activity_main">Liner</string>
+    <string name="package_name">com.hkamori.liner</string>
+    <string name="custom_url_scheme">liner</string>
+</resources>
