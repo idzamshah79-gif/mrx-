@@ -5,6 +5,15 @@ import { Tooltip } from "@/shared/ui";
 import { cn } from "@/shared/lib";
 
 export function SidebarSettingsButton() {
+  const isMobile =
+    typeof navigator !== "undefined" &&
+    (/Android|iPhone|iPad|iPod/i.test(navigator.userAgent) ||
+      (typeof window !== "undefined" &&
+        (window.location.hostname.includes("androidplatform") ||
+          typeof (window as any).linerAndroidBridge !== "undefined")));
+
+  if (isMobile) return null;
+
   const { t } = useTranslation();
   const settingsOpen = useModalStore((state) => state.settingsOpen);
   const toggleSettings = useModalStore((state) => state.toggleSettings);

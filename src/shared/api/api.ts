@@ -232,7 +232,7 @@ async function executeRequest<T>(
         ...init,
         headers: {
           ...(hasBody ? { "Content-Type": "application/json" } : {}),
-          ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
+          ...(accessToken && accessToken !== "guest-token" ? { Authorization: `Bearer ${accessToken}` } : {}),
           ...correlationHeaders,
           ...signedHeaders,
           ...restHeaders,
@@ -272,7 +272,7 @@ async function executeRequest<T>(
         ? currentSession.accessToken
         : null;
 
-    if (!nextToken && currentSession?.refreshToken) {
+    if (!nextToken && currentSession?.refreshToken && currentSession.refreshToken !== "guest-refresh-token") {
       const refreshed = await refreshAuthSession();
       nextToken = refreshed?.accessToken ?? null;
       if (!nextToken && getAuthSession()?.refreshToken) {
@@ -971,7 +971,7 @@ export const api = {
         {
           signal,
           headers: {
-            ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
+            ...(accessToken && accessToken !== "guest-token" ? { Authorization: `Bearer ${accessToken}` } : {}),
             ...correlationHeaders,
             ...signedHeaders,
           },

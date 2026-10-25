@@ -96,6 +96,29 @@ export async function postInnertube(
     },
   };
 
+  const bridge =
+    typeof window !== "undefined"
+      ? (window as any).linerAndroidBridge
+      : null;
+
+  if (bridge && typeof bridge.post === "function") {
+    try {
+      const responseStr = bridge.post(
+        url,
+        JSON.stringify(buildHeaders(profile, visitorData, authorization)),
+        JSON.stringify(payload),
+      );
+      const data = JSON.parse(responseStr);
+      if (data && data.error && !data.contents && !data.trackingParams && !data.streamingData) {
+        throw new Error(data.error);
+      }
+      return data;
+    } catch (bridgeErr) {
+      if (options.signal?.aborted) throw bridgeErr;
+      console.warn("[Innertube] Android bridge error, falling back to fetch", bridgeErr);
+    }
+  }
+
   let response: Response;
   try {
     response = await fetch(url, {

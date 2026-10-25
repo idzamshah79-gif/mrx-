@@ -9,6 +9,13 @@ export interface SidebarProps {
 }
 
 function Sidebar({ searchOpen, onSearchToggle }: SidebarProps) {
+  const isMobile =
+    typeof navigator !== "undefined" &&
+    (/Android|iPhone|iPad|iPod/i.test(navigator.userAgent) ||
+      (typeof window !== "undefined" &&
+        (window.location.hostname.includes("androidplatform") ||
+          typeof (window as any).linerAndroidBridge !== "undefined")));
+
   return (
     <div
       className={cn(
@@ -22,9 +29,11 @@ function Sidebar({ searchOpen, onSearchToggle }: SidebarProps) {
         />
       </nav>
 
-      <div className="pt-[16px] pb-[16px] shrink-0 flex flex-col justify-center items-center gap-[20px]">
-        <SidebarSettingsButton />
-      </div>
+      {!isMobile && (
+        <div className="pt-[16px] pb-[16px] shrink-0 flex flex-col justify-center items-center gap-[20px]">
+          <SidebarSettingsButton />
+        </div>
+      )}
     </div>
   );
 }

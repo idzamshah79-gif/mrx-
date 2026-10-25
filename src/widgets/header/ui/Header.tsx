@@ -14,6 +14,14 @@ export const Header = forwardRef<HTMLElement, HeaderProps>(function Header(
   { className },
   ref,
 ) {
+  const isMobile =
+    typeof navigator !== "undefined" &&
+    (/Android|iPhone|iPad|iPod/i.test(navigator.userAgent) ||
+      (typeof window !== "undefined" &&
+        (window.location.hostname.includes("androidplatform") ||
+          typeof (window as any).linerAndroidBridge !== "undefined" ||
+          !(window as any).linerElectron)));
+
   return (
     <header
       ref={ref}
@@ -41,15 +49,17 @@ export const Header = forwardRef<HTMLElement, HeaderProps>(function Header(
         </Link>
       </div>
 
-      <div className="flex items-center gap-[8px] mr-[6px] shrink-0">
-        <div
-          data-no-window-drag
-          data-no-tooltip="true"
-          className="h-[38px] flex items-center gap-[2px] px-[4px] rounded-[10px] shrink-0 bg-bg-glass backdrop-blur-[20px]"
-        >
-          <WindowControls bare />
+      {!isMobile && (
+        <div className="flex items-center gap-[8px] mr-[6px] shrink-0">
+          <div
+            data-no-window-drag
+            data-no-tooltip="true"
+            className="h-[38px] flex items-center gap-[2px] px-[4px] rounded-[10px] shrink-0 bg-bg-glass backdrop-blur-[20px]"
+          >
+            <WindowControls bare />
+          </div>
         </div>
-      </div>
+      )}
     </header>
   );
 });

@@ -19,6 +19,16 @@ function StatusDot({ status }: { status: DiagCheck["status"] }) {
 }
 
 export default function ConnectivityWall() {
+  const isMobile =
+    typeof navigator !== "undefined" &&
+    (/Android|iPhone|iPad|iPod/i.test(navigator.userAgent) ||
+      (typeof window !== "undefined" &&
+        (window.location.hostname.includes("androidplatform") ||
+          typeof (window as any).linerAndroidBridge !== "undefined" ||
+          !(window as any).linerElectron)));
+
+  if (isMobile) return null;
+
   const { t } = useTranslation();
   const [showChecks, setShowChecks] = useState(false);
   const visible = useConnectivityStore((s) => s.visible);
