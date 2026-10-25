@@ -176,8 +176,8 @@ jobs:
 
       - name: Sync assets to Android project
         run: |
-          mkdir -p android/app/src/main/assets/public
-          cp -r dist/* android/app/src/main/assets/public/
+          mkdir -p android/app/src/main/assets
+          cp -r dist/* android/app/src/main/assets/
 
       - name: Build Android APK
         working-directory: android
