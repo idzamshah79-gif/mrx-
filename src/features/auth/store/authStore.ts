@@ -6,6 +6,7 @@ import {
   getAuthSession,
   setAuthSession,
   refreshAuthSession,
+  type AuthTokens,
   type AuthUser,
   type PublicUser,
   type UpdateProfileInput,
