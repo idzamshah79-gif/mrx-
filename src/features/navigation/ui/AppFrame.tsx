@@ -104,10 +104,17 @@ export default function AppFrame({ children }: AppFrameProps) {
   }, [pathname, openSettings, navigate]);
 
   useEffect(() => {
-    for (const key of LEGACY_LAYOUT_STORAGE_KEYS) {
-      localStorage.removeItem(key);
+    const isMobile =
+      typeof navigator !== "undefined" &&
+      (/Android|iPhone|iPad|iPod/i.test(navigator.userAgent) ||
+        (typeof window !== "undefined" &&
+          (window.location.hostname.includes("androidplatform") ||
+            typeof (window as any).linerAndroidBridge !== "undefined")));
+
+    if (isMobile) {
+      openSearch();
     }
-  }, []);
+  }, [openSearch]);
 
   const handleQueuePopupToggle = useCallback((open: boolean) => {
     setQueuePopupOpen(open);

@@ -9,15 +9,16 @@ import PlayerPage from "@/features/player/ui/FullscreenPlayer";
 export function AppRoutes() {
   return (
     <Routes>
-      <Route path="/" element={<HomePage />} />
+      <Route path="/" element={<Navigate to="/library" replace />} />
+      <Route path="/home" element={<Navigate to="/library" replace />} />
       <Route path="/library" element={<LibraryPage />} />
       <Route path="/library/playlist" element={<PlaylistPage />} />
       <Route path="/artist" element={<ArtistPage />} />
       <Route path="/collection" element={<CollectionPage />} />
-      <Route path="/login" element={<Navigate to="/" replace />} />
-      <Route path="/settings" element={<Navigate to="/" replace />} />
+      <Route path="/login" element={<Navigate to="/library" replace />} />
+      <Route path="/settings" element={<Navigate to="/library" replace />} />
       <Route path="/player" element={<PlayerPage />} />
-      <Route path="*" element={<Navigate to="/" replace />} />
+      <Route path="*" element={<Navigate to="/library" replace />} />
     </Routes>
   );
 }

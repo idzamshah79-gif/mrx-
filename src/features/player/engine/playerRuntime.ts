@@ -56,17 +56,24 @@ export class PlayerRuntime {
 
   constructor() {
     const win = typeof window !== "undefined" ? (window as any) : null;
+    const isElectron = typeof window !== "undefined" && Boolean(win?.linerElectron);
     let audio = (win?.__liner_audio ||
       (typeof document !== "undefined" &&
         document.getElementById("liner-audio"))) as HTMLAudioElement | null;
     if (!audio) {
       audio = new Audio();
       audio.id = "liner-audio";
-      audio.crossOrigin = "anonymous";
+      if (isElectron) {
+        audio.crossOrigin = "anonymous";
+      }
       audio.preload = "auto";
       if (typeof document !== "undefined") {
         document.body.appendChild(audio);
       }
+    }
+    if (!isElectron && audio) {
+      audio.removeAttribute("crossorigin");
+      audio.crossOrigin = null;
     }
     if (win) {
       win.__liner_audio = audio;

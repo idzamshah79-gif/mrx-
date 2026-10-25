@@ -106,7 +106,10 @@ export async function resolveDirectAudioStream(
   if (!videoId)
     throw new InnertubeError(`Track ${trackId} is not a YouTube video.`, 400);
   const failures: string[] = [];
-  if (!options.profiles && Date.now() >= webRemixRetryAt) {
+  const isElectron =
+    typeof window !== "undefined" &&
+    Boolean((window as any).linerElectron);
+  if (!options.profiles && isElectron && Date.now() >= webRemixRetryAt) {
     const stream = await resolveViaWebRemix(videoId, options, failures);
     if (stream) return stream;
   } else if (!options.profiles) {
